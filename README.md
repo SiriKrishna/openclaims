@@ -35,6 +35,11 @@ and a PySpark path for full-scale (25M+ row) processing.
 - **Quality gate as a DAG task, not an afterthought.** `dbt test` runs as a first-class Airflow task after `dbt run`. Failed tests fail the pipeline.
 - **Idempotency everywhere.** Extraction partitions by run date; loads use replace semantics; the PySpark job writes with overwrite + partitioning. Any task can be re-run safely.
 - **Outlier detection in the mart layer.** `mart_top_prescribers` benchmarks each prescriber's cost-per-claim against the national average for that drug and flags >3× outliers — the same pattern used in payment-integrity analytics.
+- **The quality gate earned its keep on day one.** Within seconds of real CMS data
+  landing, the uniqueness test flagged 2,148 violations of the assumed
+  (npi, generic) grain — the true grain is (npi, brand, generic), since one
+  prescriber writes the same generic under many brands. Model corrected,
+  severity raised to error.
 - **DuckDB for dev, Spark for scale.** The full annual Part D file is ~25M rows. `spark_jobs/transform_prescribers.py` implements the same transformations with explicit schemas, window-function dedup, and state-partitioned Parquet — swap the warehouse target without touching the dbt layer.
 - **Offline-first development.** `scripts/seed_sample_data.py` generates API-shaped sample data (string-typed numerics and all), so the full pipeline runs without network access.
 
@@ -61,6 +66,9 @@ docker compose up -d          # Airflow standalone on http://localhost:8080
 [Medicare Part D Prescribers — by Provider and Drug](https://data.cms.gov) —
 public, de-identified at the prescriber level (rows with <11 claims are suppressed
 by CMS). One row per prescriber (NPI) × drug × year.
+
+**Currently loaded:** 50,000 rows from the 2024-12-01 release, resolved automatically
+via the CMS DCAT catalog (`scripts/fetch_real_cms.py`) — no hardcoded dataset IDs.
 
 ## Repo layout
 

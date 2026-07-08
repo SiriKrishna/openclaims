@@ -57,7 +57,7 @@ by_state = (
 st.plotly_chart(
     px.bar(by_state, x="state", y="total_drug_cost",
            labels={"total_drug_cost": "Total drug cost ($)"}),
-    use_container_width=True,
+    width='stretch',
 )
 
 # ---- Top drugs in a chosen state -----------------------------------------
@@ -70,7 +70,7 @@ top = (
     [["generic_name", "prescriber_count", "total_claims",
       "total_drug_cost", "avg_cost_per_claim"]]
 )
-st.dataframe(top, use_container_width=True, hide_index=True)
+st.dataframe(top, width='stretch', hide_index=True)
 
 # ---- Outlier prescribers ---------------------------------------------------
 st.subheader("Cost-outlier prescribers (>3× national avg cost/claim)")
@@ -82,4 +82,4 @@ out_df = (
       "generic_name", "total_claims", "cost_per_claim",
       "natl_avg_cost_per_claim"]]
 )
-st.dataframe(out_df, use_container_width=True, hide_index=True)
+st.dataframe(out_df, width='stretch', hide_index=True)
