@@ -20,6 +20,7 @@ models:
         description: Aggregate drug cost in USD.
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [npi, generic_name]
+          arguments:
+            combination_of_columns: [npi, brand_name, generic_name]
           config:
-            severity: warn
+            severity: error
