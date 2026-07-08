@@ -1,0 +1,26 @@
+# OpenClaims — local Airflow + DuckDB stack
+# Usage:  docker compose up airflow-init && docker compose up -d
+services:
+  airflow:
+    image: apache/airflow:2.9.3-python3.11
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      OPENCLAIMS_DATA_DIR: /opt/airflow/data
+      OPENCLAIMS_DBT_DIR: /opt/airflow/dbt/openclaims
+      # CMS_DATASET_ID: <set-me>   # verify UUID on data.cms.gov
+      _PIP_ADDITIONAL_REQUIREMENTS: >-
+        duckdb==1.0.0
+        dbt-duckdb==1.8.1
+        requests
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./dbt:/opt/airflow/dbt
+      - ./data:/opt/airflow/data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

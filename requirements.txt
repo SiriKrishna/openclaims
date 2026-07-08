@@ -1,0 +1,8 @@
+# Local development (outside Docker)
+duckdb==1.0.0
+dbt-duckdb==1.8.1
+pyspark==3.5.1
+requests
+streamlit
+plotly
+pandas

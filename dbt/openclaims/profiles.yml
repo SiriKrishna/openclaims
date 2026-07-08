@@ -1,0 +1,7 @@
+openclaims:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ var('duckdb_path', '../../data/openclaims.duckdb') }}"
+      threads: 4

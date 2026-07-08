@@ -1,0 +1,9 @@
+data/
+*.duckdb
+*.duckdb.wal
+__pycache__/
+.venv/
+dbt_packages/
+target/
+logs/
+.DS_Store

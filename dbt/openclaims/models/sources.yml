@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw CMS Part D prescriber data landed by Airflow.
+    schema: raw
+    tables:
+      - name: part_d_prescribers
+        description: >
+          Medicare Part D "Prescribers by Provider and Drug" from data.cms.gov.
+          One row per prescriber (NPI) per drug per year.
+        columns:
+          - name: Prscrbr_NPI
+            description: National Provider Identifier of the prescriber.

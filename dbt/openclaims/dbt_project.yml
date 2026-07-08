@@ -1,0 +1,17 @@
+name: openclaims
+version: "1.0.0"
+profile: openclaims
+
+model-paths: ["models"]
+
+vars:
+  duckdb_path: "../../data/openclaims.duckdb"
+
+models:
+  openclaims:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      +materialized: table
+      +schema: marts

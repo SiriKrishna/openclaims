@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: mart_drug_spend_by_state
+    description: State-level Part D drug spend, ranked within state.
+    columns:
+      - name: state
+        tests: [not_null]
+      - name: total_drug_cost
+        tests: [not_null]
+
+  - name: mart_top_prescribers
+    description: Prescriber-drug records with national cost benchmarks and outlier flags.
+    columns:
+      - name: npi
+        tests: [not_null]

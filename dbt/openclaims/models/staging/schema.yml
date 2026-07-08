@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_prescribers
+    description: Cleaned and typed Part D prescriber-drug records.
+    columns:
+      - name: npi
+        description: National Provider Identifier.
+        tests:
+          - not_null
+      - name: state
+        description: Two-letter state abbreviation of the prescriber.
+        tests:
+          - not_null
+      - name: total_claims
+        description: Total Part D claims for this prescriber-drug pair.
+        tests:
+          - not_null
+      - name: total_drug_cost
+        description: Aggregate drug cost in USD.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [npi, generic_name]
+          config:
+            severity: warn
